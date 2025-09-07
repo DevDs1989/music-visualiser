@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>p5.js Dynamic Text Animation</title>
+  <title>Audio Visualizer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- p5.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -10,42 +10,98 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <h2 class="page-title">p5.js Dynamic Animation Demo</h2>
-    <div class="layout">
-      <!-- Canvas -->
-      <div id="sketch-holder" class="card"></div>
-
-      <!-- Music Player -->
-      <div class="card player">
-        <h3 class="player-title">Now Playing</h3>
-
-        <!-- Song title will update here -->
-        <div id="songTitle" class="song-title">No file selected</div>
-
-        <label class="file-upload">
-          <input type="file" id="fileInput" accept="audio/*">
-          <span>Select Audio</span>
-        </label>
-
-        <div class="controls">
-          <button id="playPause" class="btn">▶️</button>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <h1 class="title">Audio Visualizer</h1>
+      </div>
+      
+      <nav class="nav">
+        <div class="nav-list">
+          <button id="networkBtn" class="nav-button active">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7l2 2-2 2M5 6l2-2-2-2m0 16l2-2-2-2m14 2l-2-2 2-2"></path>
+            </svg>
+            Network
+          </button>
+          <button id="gridBtn" class="nav-button">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+            Grid
+          </button>
+          <button id="circleBtn" class="nav-button">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Circle
+          </button>
         </div>
+      </nav>
+    </header>
 
-        <input type="range" id="progress" min="0" max="100" value="0" class="slider">
-
-        <div class="time">
-          <span id="currentTime">0:00</span>
-          <span id="duration">0:00</span>
+    <main class="main">
+      <div class="main-content">
+        <div class="visualizer-container">
+          <div id="sketch-holder" class="canvas-container"></div>
         </div>
-
-        <div class="volume">
-          <label for="volumeSlider">Volume</label>
-          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        
+        <div class="controls-container">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Music Player</h3>
+              <p class="card-description">Upload and play audio files</p>
+            </div>
+            
+            <div class="card-content">
+              <div class="track-info">
+                <div id="songTitle" class="track-title">No file selected</div>
+              </div>
+              
+              <div class="upload-section">
+                <label class="upload-button">
+                  <input type="file" id="fileInput" accept="audio/*" class="file-input">
+                  <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  Choose Audio File
+                </label>
+              </div>
+              
+              <div class="player-controls">
+                <button id="playPause" class="play-button">
+                  <svg class="play-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1M7 7h10v10H7V7z"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <div class="progress-section">
+                <input type="range" id="progress" min="0" max="100" value="0" class="progress-slider">
+                <div class="time-display">
+                  <span id="currentTime" class="time-text">0:00</span>
+                  <span id="duration" class="time-text">0:00</span>
+                </div>
+              </div>
+              
+              <div class="volume-section">
+                <div class="volume-control">
+                  <label class="volume-label">
+                    <svg class="volume-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 6l-4 4H4v4h4l4 4V6z"></path>
+                    </svg>
+                    Volume
+                  </label>
+                  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" class="volume-slider">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
+
   <script src="sketch.js"></script>
 </body>
 </html>
