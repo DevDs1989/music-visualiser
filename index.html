@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>p5.js Dynamic Text Animation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h2 class="page-title">p5.js Dynamic Animation Demo</h2>
+    <div class="layout">
+      <!-- Canvas -->
+      <div id="sketch-holder" class="card"></div>
+
+      <!-- Music Player -->
+      <div class="card player">
+        <h3 class="player-title">Now Playing</h3>
+
+        <!-- Song title will update here -->
+        <div id="songTitle" class="song-title">No file selected</div>
+
+        <label class="file-upload">
+          <input type="file" id="fileInput" accept="audio/*">
+          <span>Select Audio</span>
+        </label>
+
+        <div class="controls">
+          <button id="playPause" class="btn">▶️</button>
+        </div>
+
+        <input type="range" id="progress" min="0" max="100" value="0" class="slider">
+
+        <div class="time">
+          <span id="currentTime">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+
+        <div class="volume">
+          <label for="volumeSlider">Volume</label>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="sketch.js"></script>
+</body>
+</html>

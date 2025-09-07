@@ -1,0 +1,139 @@
+/* Base */
+body {
+  background: #0f0f11;
+  color: #eaeaea;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px;
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Title */
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f5f5f5;
+}
+
+/* Layout: canvas + player side by side */
+.layout {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Shared card style */
+.card {
+  background: #18181b;
+  border: 1px solid #2a2a2e;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  padding: 2px;
+}
+
+/* Canvas holder */
+#sketch-holder {
+  overflow: hidden;
+
+}
+
+/* Player */
+.player {
+  width: 280px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.player-title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  text-align: center;
+}
+
+/* File input */
+.file-upload {
+  display: inline-block;
+  cursor: pointer;
+  background: #27272a;
+  color: #eaeaea;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.file-upload:hover {
+  background: #323235;
+}
+.file-upload input {
+  display: none;
+}
+
+/* Buttons */
+.btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: #1e4ed8;
+}
+
+/* Range sliders */
+.slider,
+#volumeSlider {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #a1a1aa;
+}
+
+.volume {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #c7c7c7;
+}
+.song-title {
+  font-size: 0.9rem;
+  color: #d4d4d8;
+  text-align: center;
+  margin-bottom: 4px;
+  font-style: italic;
+}
