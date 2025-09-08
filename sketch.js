@@ -1,7 +1,6 @@
-// sketch.js
-// Requires p5.js and p5.sound
 
-let NUM_POINTS = 80;
+
+let NUM_POINTS = 40;
 let BASE_CONNECT_DIST = 75;
 let points = [];
 let song;
@@ -17,7 +16,6 @@ let bassHistory = [];
 let midHistory = [];
 let trebleHistory = [];
 
-// UI elements from HTML
 let fileInput, playPauseBtn, progressSlider, currentTimeEl, durationEl, songTitleEl, volumeSlider;
 
 function setup() {
@@ -162,7 +160,7 @@ function draw() {
 }
 
 function drawNetworkVisualizer(level) {
-  let CONNECT_DIST = BASE_CONNECT_DIST + level * 100;
+  let CONNECT_DIST = BASE_CONNECT_DIST + level * 200;
 
   // Update and draw points (unchanged from original)
   for (let p of points) {
@@ -227,20 +225,37 @@ function drawNetworkVisualizer(level) {
 function drawGridVisualizer(level, spectrum, bass, mid, treble) {
   noFill();
 
-  // Center coordinates
-  let centerX = (gridSize - 1) / 2;
-  let centerY = (gridSize - 1) / 2;
-  let maxDist = dist(0, 0, centerX, centerY);
+  // Center coordinates: follow mouse in pixel space if inside canvas, else true center in grid space
+  let useMouse = (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height);
+  let centerX, centerY, maxDist;
+  if (useMouse) {
+    centerX = mouseX;
+    centerY = mouseY;
+    // Max distance is from a corner to the mouse
+    let corners = [
+      {x: 0, y: 0},
+      {x: width, y: 0},
+      {x: 0, y: height},
+      {x: width, y: height}
+    ];
+    maxDist = Math.max(...corners.map(c => dist(centerX, centerY, c.x, c.y)));
+  } else {
+    // Center in grid coordinates
+    let boxSize = width / gridSize;
+    centerX = (gridSize - 1) / 2 * boxSize + boxSize / 2;
+    centerY = (gridSize - 1) / 2 * boxSize + boxSize / 2;
+    maxDist = dist(centerX, centerY, 0, 0);
+  }
 
   for (let i = 0; i < gridBoxes.length; i++) {
     let box = gridBoxes[i];
 
-    let x = i % gridSize;
-    let y = Math.floor(i / gridSize);
 
     // Distance factor from center (1 at center, 0 at edges)
-    let d = dist(x, y, centerX, centerY);
-    let centerFactor = 1.01 - (d / maxDist);
+  let d = dist(box.centerX, box.centerY, centerX, centerY);
+  // Make falloff sharper (smaller effect area) when mouse is inside
+  let falloff = useMouse ?0.4: 1.0;
+  let centerFactor = 1.01 - (d / (maxDist * falloff));
 
     // Target intensities with center-weighted bass
     box.targetBass = bass * centerFactor;
@@ -408,6 +423,5 @@ function windowResized() {
   let containerSize = Math.min(container.clientWidth, container.clientHeight);
   resizeCanvas(containerSize, containerSize);
 
-  // Reinitialize visualizers for new canvas size
   initializeVisualizers();
 }
